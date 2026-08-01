@@ -3,401 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Panda Friendship Day Wish</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            height: 100vh;
-            background: radial-gradient(circle at center, #1e002e, #050008);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            perspective: 1000px;
-        }
-
-        /* --- 1. 3D Panda & Bow --- */
-        .panda-container {
-            position: absolute;
-            left: -200px;
-            bottom: 15%;
-            width: 140px;
-            height: 160px;
-            z-index: 10;
-            animation: pandaWalk 4s ease-out forwards;
-        }
-
-        @keyframes pandaWalk {
-            0% { left: -200px; }
-            100% { left: 10%; }
-        }
-
-        .panda-head {
-            position: absolute;
-            top: 0;
-            left: 20px;
-            width: 100px;
-            height: 85px;
-            background: #fff;
-            border-radius: 50% 50% 45% 45%;
-            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.3);
-        }
-
-        .ear {
-            position: absolute;
-            width: 32px;
-            height: 32px;
-            background: #111;
-            border-radius: 50%;
-            top: -10px;
-        }
-        .ear.left { left: 5px; }
-        .ear.right { right: 5px; }
-
-        .eye-patch {
-            position: absolute;
-            width: 25px;
-            height: 32px;
-            background: #111;
-            border-radius: 50%;
-            top: 25px;
-        }
-        .eye-patch.left { left: 18px; transform: rotate(15deg); }
-        .eye-patch.right { right: 18px; transform: rotate(-15deg); }
-
-        .eye-patch::after {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            top: 8px;
-            left: 8px;
-        }
-
-        .panda-body {
-            position: absolute;
-            bottom: 0;
-            left: 15px;
-            width: 110px;
-            height: 95px;
-            background: #fff;
-            border-radius: 50% 50% 40% 40%;
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-        }
-
-        /* 3D Bow in Panda's hand */
-        .bow {
-            position: absolute;
-            right: -25px;
-            top: 40px;
-            width: 15px;
-            height: 80px;
-            border-left: 6px solid #8b4513;
-            border-radius: 50%;
-            transform: rotate(-10deg);
-        }
-
-        .bow-string {
-            position: absolute;
-            width: 2px;
-            height: 80px;
-            background: #eee;
-            left: -6px;
-            top: 0;
-        }
-
-        /* --- 2. Arrow Animation --- */
-        .arrow {
-            position: absolute;
-            left: 18%;
-            bottom: 27%;
-            width: 80px;
-            height: 6px;
-            background: linear-gradient(90deg, #d4af37, #fff);
-            opacity: 0;
-            z-index: 15;
-            border-radius: 3px;
-            box-shadow: 0 0 12px #ffd700;
-        }
-
-        .arrow::after {
-            content: '';
-            position: absolute;
-            right: -2px;
-            top: -5px;
-            border-left: 14px solid #ffd700;
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-        }
-
-        .arrow.shoot {
-            opacity: 1;
-            animation: arrowShoot 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        @keyframes arrowShoot {
-            0% { left: 18%; opacity: 1; }
-            100% { left: 48%; opacity: 0; transform: scale(0.5); }
-        }
-
-        /* --- 3. 3D Heart --- */
-        .heart-wrapper {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 5;
-        }
-
-        .heart {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            background: #ff2a5f;
-            transform: rotate(-45deg);
-            box-shadow: 0 0 40px rgba(255, 42, 95, 0.8);
-            animation: floatHeart 2.5s infinite ease-in-out;
-            transition: transform 0.2s, background 0.3s;
-        }
-
-        .heart::before,
-        .heart::after {
-            content: "";
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            background: #ff2a5f;
-            border-radius: 50%;
-        }
-
-        .heart::before { top: -60px; left: 0; }
-        .heart::after { left: 60px; top: 0; }
-
-        @keyframes floatHeart {
-            0%, 100% { transform: rotate(-45deg) translateY(0); }
-            50% { transform: rotate(-45deg) translateY(-15px); }
-        }
-
-        .heart.hit {
-            animation: heartPulseHit 0.4s ease-out forwards;
-            background: #e60039;
-        }
-
-        @keyframes heartPulseHit {
-            0% { transform: rotate(-45deg) scale(1); }
-            50% { transform: rotate(-45deg) scale(1.3); }
-            100% { transform: rotate(-45deg) scale(1); }
-        }
-
-        /* --- 4. 3D Letter / Envelope --- */
-        .envelope {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 200px;
-            height: 130px;
-            background: #d63031;
-            border-radius: 8px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-            cursor: pointer;
-            z-index: 20;
-            opacity: 0;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
-        }
-
-        .envelope.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            border-left: 100px solid transparent;
-            border-right: 100px solid transparent;
-            border-top: 75px solid #ff7675;
-            transform-origin: top;
-            transition: transform 0.4s ease;
-        }
-
-        .tap-text {
-            position: absolute;
-            bottom: 12px;
-            width: 100%;
-            text-align: center;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #fff;
-            animation: pulseText 1.2s infinite;
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* --- 5. English Wishes Card --- */
-        .card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 300px;
-            background: rgba(255, 255, 255, 0.96);
-            padding: 30px 20px;
-            border-radius: 20px;
-            text-align: center;
-            color: #2d3436;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            z-index: 30;
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card.open {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .card h1 {
-            color: #d63031;
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-
-        .card p {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #636e72;
-            margin-bottom: 15px;
-        }
-
-        .card .signature {
-            font-weight: bold;
-            color: #e84393;
-            font-size: 0.95rem;
-        }
-
-        /* Falling Petals Rain */
-        .petal {
-            position: fixed;
-            top: -10px;
-            background: radial-gradient(circle, #ff7675, #d63031);
-            border-radius: 15px 0 15px 0;
-            pointer-events: none;
-            z-index: 100;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-    </style>
+    <title>Happy Friendship Day - 3D Animation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Panda -->
-    <div class="panda-container">
-        <div class="panda-head">
-            <div class="ear left"></div>
-            <div class="ear right"></div>
-            <div class="eye-patch left"></div>
-            <div class="eye-patch right"></div>
+    <div class="stage">
+        <button id="start-btn">▶ Start Friendship Day Wish</button>
+
+        <div class="heart-container">
+            <div id="heart" class="heart"></div>
         </div>
-        <div class="panda-body"></div>
-        <div class="bow">
-            <div class="bow-string"></div>
+
+        <div id="panda" class="panda-container">
+            <div class="panda-head">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+                <div class="eye-patch left"></div>
+                <div class="eye-patch right"></div>
+            </div>
+            <div class="panda-body"></div>
+            <div class="bow">
+                <div class="bow-string"></div>
+            </div>
+        </div>
+
+        <div id="arrow" class="arrow"></div>
+
+        <div id="envelope" class="envelope hidden">
+            <div id="flap" class="envelope-flap"></div>
+            <div class="tap-text">TAP TO OPEN ✉️</div>
+        </div>
+
+        <div id="card" class="card hidden">
+            <h1>Happy Friendship Day! 💛</h1>
+            <p>"A real friend is someone who walks in when the rest of the world walks out."</p>
+            <p>Thank you for being such an awesome friend!</p>
+            <div class="signature">Best Friends Forever ✨</div>
         </div>
     </div>
 
-    <!-- Arrow -->
-    <div class="arrow" id="arrow"></div>
-
-    <!-- 3D Heart -->
-    <div class="heart-wrapper">
-        <div class="heart" id="heart"></div>
-    </div>
-
-    <!-- Letter Envelope -->
-    <div class="envelope" id="envelope">
-        <div class="envelope-flap" id="flap"></div>
-        <div class="tap-text">TAP TO OPEN ✉️</div>
-    </div>
-
-    <!-- Friendship Card (English) -->
-    <div class="card" id="card">
-        <h1>Happy Friendship Day! 💛</h1>
-        <p>"A good friend is like a four-leaf clover: hard to find and lucky to have."</p>
-        <p>Thank you for making every moment special!</p>
-        <div class="signature">Best Friends Forever ✨</div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const arrow = document.getElementById("arrow");
-            const heart = document.getElementById("heart");
-            const envelope = document.getElementById("envelope");
-            const flap = document.getElementById("flap");
-            const card = document.getElementById("card");
-
-            // 1. Arrow shoots towards heart after Panda arrives
-            setTimeout(() => {
-                arrow.classList.add("shoot");
-            }, 4000);
-
-            // 2. Heart gets hit by arrow
-            setTimeout(() => {
-                heart.classList.add("hit");
-            }, 4500);
-
-            // 3. Envelope pops out of Heart
-            setTimeout(() => {
-                envelope.classList.add("show");
-            }, 5200);
-
-            // 4. Tap envelope to open card
-            envelope.addEventListener("click", () => {
-                flap.style.transform = "rotateX(180deg)";
-                
-                setTimeout(() => {
-                    envelope.classList.remove("show");
-                    card.classList.add("open");
-                    startPetalRain();
-                }, 400);
-            });
-
-            // 5. Flower petals raining effect
-            function startPetalRain() {
-                setInterval(() => {
-                    const petal = document.createElement("div");
-                    petal.classList.add("petal");
-
-                    const size = Math.random() * 12 + 8;
-                    petal.style.width = `${size}px`;
-                    petal.style.height = `${size * 1.3}px`;
-                    petal.style.left = `${Math.random() * 100}vw`;
-                    petal.style.animationDuration = `${Math.random() * 3 + 3}s`;
-
-                    document.body.appendChild(petal);
-
-                    setTimeout(() => petal.remove(), 6000);
-                }, 120);
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
